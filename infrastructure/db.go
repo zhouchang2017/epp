@@ -5,6 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/zhouchang2017/epp/app/modules/inventories/models"
+	models2 "github.com/zhouchang2017/epp/app/modules/supplies/models"
 	"github.com/zhouchang2017/epp/common"
 	"github.com/zhouchang2017/epp/config"
 	"log"
@@ -33,13 +34,15 @@ func dbInit() {
 		log.Fatalln("mysql conn failed,", err)
 	}
 
+	log.Println("连接数据库")
+
 	entity = entity.Debug()
 
 	db = entity
 
 	db.AutoMigrate(models.Inventory{})
-	db.AutoMigrate(models.SupplyOrder{})
-	db.AutoMigrate(models.SupplyOrderItem{})
+	db.AutoMigrate(models2.SupplyOrder{})
+	db.AutoMigrate(models2.SupplyOrderItem{})
 }
 
 func GetDB() *gorm.DB {
@@ -66,4 +69,10 @@ func Page(db *gorm.DB, out interface{}, page, perPage uint, where interface{}, a
 	err = db.Where(where, args...).Limit(perPage).Offset((page - 1) * perPage).Find(out).Error
 
 	return common.NewPaginate(out, page, perPage, count), err
+}
+
+
+// http://api.test/hubs/1?include=hot_users:limit(3).posts:fields(id|title):limit(3)
+func ResloveInclude(params string)  {
+	
 }

@@ -31,8 +31,8 @@ type SupplyOrder struct {
 	WarehouseName *string            `json:"warehouse_name" form:"warehouse_name"`                   // 仓库名称
 	Quantity      int64              `json:"quantity"`                                               // 供货总数量
 	Status        int32              `json:"status" form:"status"`                                   // 供货单状态
-	SupplierId    *uint              `json:"supplier_id" gorm:"default:null" form:"supplier_id"`     // 供应商id
-	SupplierName  *string            `json:"supplier_name" gorm:"default:null" form:"supplier_name"` // 供应商名称
+	SupplierId    uint              `json:"supplier_id" gorm:"default:null" form:"supplier_id"`     // 供应商id
+	SupplierName  string            `json:"supplier_name" gorm:"default:null" form:"supplier_name"` // 供应商名称
 	Transport     int32              `json:"transport" gorm:"defalut:0"`                             // 运输方式
 	Items         []*SupplyOrderItem `json:"items" form:"items"`
 	CreatedAt     time.Time          `json:"created_at"`

@@ -2,21 +2,22 @@ package inventories
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zhouchang2017/epp/app/modules/inventories/models"
-	"github.com/zhouchang2017/epp/app/modules/inventories/repositories"
+	"github.com/zhouchang2017/epp/app/modules/supplies/services"
 	"net/http"
 )
 
 func CreateSupplyOrder(c *gin.Context) {
 
-	var supplyOrder *models.SupplyOrder
+	var createRequest *services.CreateSupplyOrderRequest
 
-	if c.ShouldBind(&supplyOrder) == nil {
+	if c.ShouldBind(&createRequest) == nil {
 		// TODO
 	}
-
-	supplyRep := &repositories.Supply{}
-	order, err := supplyRep.Create(supplyOrder)
+	// Fake
+	createRequest.SupplierId = 1
+	createRequest.SupplierName = "大名鼎鼎供应商"
+	supplyImp := services.MakeSupplyImp()
+	order, err := supplyImp.CreateSupplyOrder(createRequest)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err.Error())
