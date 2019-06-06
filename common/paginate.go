@@ -44,3 +44,8 @@ func (this *Paginate) setTotal() {
 		this.Total += 1
 	}
 }
+
+type PageRequest struct {
+	PerPage uint `json:"per_page" form:"per_page"`
+	Page    uint `json:"page" form:"page"`
+}

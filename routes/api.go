@@ -16,7 +16,13 @@ func ApiRouter(r *gin.Engine) {
 
 	r.GET("/suppliers", suppliers.Get)
 
+	r.GET("/supplies", supplies.Index)
+
 	r.GET("/supplies/:id", supplies.Show)
+
+	r.PUT("/supplies/:id/approve", supplies.Approve)
+
+	r.POST("/supplies/:id/shipment", supplies.Shipment)
 
 	r.POST("/inventories", inventories.CreateSupplyOrder)
 }

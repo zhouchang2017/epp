@@ -3,13 +3,13 @@ package services
 import (
 	models2 "github.com/zhouchang2017/epp/app/modules/inventories/models"
 	"github.com/zhouchang2017/epp/app/modules/suppliers/models"
+	"github.com/zhouchang2017/epp/common"
 	"github.com/zhouchang2017/epp/infrastructure"
 )
 
 type GetRequest struct {
 	VariantId uint `json:"variant_id" form:"variant_id"`
-	PerPage   uint `json:"per_page" form:"per_page"`
-	Page      uint `json:"page" form:"page"`
+	Page      *common.PageRequest `json:"page" form:"page"`
 }
 
 type GetResponse struct {
@@ -34,7 +34,7 @@ func (this *SupplierService) Get(params *GetRequest) (response interface{}, err 
 	build:=infrastructure.GetDB()
 	var data []*models.SupplierVariant
 
-	if response,err = infrastructure.Page(build,&data,params.Page,params.PerPage,&models2.Inventory{
+	if response,err = infrastructure.Page(build,&data,params.Page,&models2.Inventory{
 		VariantId:params.VariantId,
 	}); err != nil {
 		return response, err

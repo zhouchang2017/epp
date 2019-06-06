@@ -14,7 +14,13 @@ type SupplyOrderItem struct {
 	Status        int32        `json:"status"`                   // 供货单状态
 	SupplyOrderId uint         `json:"supply_order_id" form:"supply_order_id"`
 	SupplyOrder   *SupplyOrder `json:"supply_order" form:"supply_order"`
+	ShipmentId    *uint        `json:"shipment_id,omietempty"` // 物流id
+	Shipment      *Shipment    `json:"shipment,omietempty"`	// 物流实体
 	CreatedAt     time.Time    `json:"created_at"`
 	UpdatedAt     time.Time    `json:"updated_at"`
 	DeletedAt     *time.Time   `sql:"index"json:"deleted_at"`
+}
+
+func (this *SupplyOrderItem) HasShipment() bool {
+	return this.ShipmentId != nil
 }

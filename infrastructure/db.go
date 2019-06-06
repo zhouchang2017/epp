@@ -43,6 +43,7 @@ func dbInit() {
 	db.AutoMigrate(models.Inventory{})
 	db.AutoMigrate(models2.SupplyOrder{})
 	db.AutoMigrate(models2.SupplyOrderItem{})
+	db.AutoMigrate(models2.Shipment{})
 }
 
 func GetDB() *gorm.DB {
@@ -54,21 +55,21 @@ func Close() {
 }
 
 // 分页
-func Page(db *gorm.DB, out interface{}, page, perPage uint, where interface{}, args ...interface{}) (res *common.Paginate, err error) {
-	if perPage == 0 {
-		perPage = 15
+func Page(db *gorm.DB, out interface{}, page *common.PageRequest, where interface{}, args ...interface{}) (res *common.Paginate, err error) {
+	if page.PerPage == 0 {
+		page.PerPage = 15
 	}
-	if page == 0 {
-		page = 1
+	if page.Page == 0 {
+		page.Page = 1
 	}
 
 	var count uint
 
 	db.Find(out).Count(&count)
 
-	err = db.Where(where, args...).Limit(perPage).Offset((page - 1) * perPage).Find(out).Error
+	err = db.Where(where, args...).Limit(page.PerPage).Offset((page.Page - 1) * page.PerPage).Find(out).Error
 
-	return common.NewPaginate(out, page, perPage, count), err
+	return common.NewPaginate(out, page.Page, page.PerPage, count), err
 }
 
 
